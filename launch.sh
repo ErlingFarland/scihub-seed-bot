@@ -1,9 +1,9 @@
-if [ ! -d venv ]; then
+if [ -d venv ]; then
+  source venv
+else
   python -m venv venv
   source venv
   pip install -r requirements.txt
-else
-  source venv
 fi
 
 python main.py
