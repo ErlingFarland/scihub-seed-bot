@@ -1,8 +1,8 @@
 if [ -d venv ]; then
-  source venv
+  source venv/bin/activate
 else
   python -m venv venv
-  source venv
+  source venv/bin/activate
   pip install -r requirements.txt
 fi
 
