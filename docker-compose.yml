@@ -1,0 +1,8 @@
+version: '3'
+services:
+  bot:
+    image: 'python:slim'
+    volumes:
+    - '.:/app'
+    working_dir: /app
+    command: [bash, launch.sh]
