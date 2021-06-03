@@ -106,7 +106,7 @@ def handle_command(update: Update, ctx: CallbackContext):
         return
     seed = random.choice(seeds)
     magnet = url_to_magnet(seed.url)
-    text = f'Seeders: {seed.seeders}\nSize: {seed.size}\nTorrent: [{seed.url}]({seed.url})\nMagnet: `{magnet}`'
+    text = f'Seeders: {seed.seeders}\nSize: {seed.size}\nTorrent: [{seed.url}]({seed.url})\nMagnet🧲: `{magnet}` (点击复制/Click To Copy)'
     update.message.reply_text(text, parse_mode='markdown')
 
 
