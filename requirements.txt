@@ -1,0 +1,4 @@
+requests
+torrentool
+bs4
+python-telegram-bot
