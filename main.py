@@ -2,6 +2,7 @@ import json
 import os
 import random
 import time
+from functools import lru_cache
 from pathlib import Path
 from typing import NamedTuple
 from threading import RLock
@@ -76,6 +77,7 @@ def url_to_magnet(url):
     return torrent.magnet_link
 
 
+@lru_cache(128)
 def url_to_magnet_cached(url):
     name = os.path.basename(url)
     fp = hash_root / name
