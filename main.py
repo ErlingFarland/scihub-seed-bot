@@ -13,7 +13,9 @@ from telegram import Update
 from telegram.ext import CommandHandler, CallbackContext, Updater
 
 torrent_root = Path('torrents')
+hash_root = Path('cache')
 torrent_root.mkdir(exist_ok=True)
+hash_root.mkdir(exist_ok=True)
 cache_ts = 0
 cache_data = None
 
@@ -74,6 +76,17 @@ def url_to_magnet(url):
     return torrent.magnet_link
 
 
+def url_to_magnet_cached(url):
+    name = os.path.basename(url)
+    fp = hash_root / name
+    if fp.exists():
+        return fp.read_text('utf-8')
+    else:
+        magnet = url_to_magnet(url)
+        fp.write_text(magnet, 'utf-8')
+        return magnet
+
+
 def poll_latest_seeds():
     seeds = list(poll_torrents())
     min_seeders = min(s.seeders for s in seeds)
@@ -105,7 +118,7 @@ def handle_command(update: Update, ctx: CallbackContext):
         update.message.reply_text('未知错误: 获取列表为空, 请通知管理员。\n Error: Empty torrent list. Something is wrong.')
         return
     seed = random.choice(seeds)
-    magnet = url_to_magnet(seed.url)
+    magnet = url_to_magnet_cached(seed.url)
     text = f'Seeders: {seed.seeders}\nSize: {seed.size}\nTorrent: [{seed.url}]({seed.url})\nMagnet🧲: `{magnet}` (点击复制/Click To Copy)'
     update.message.reply_text(text, parse_mode='markdown')
 
